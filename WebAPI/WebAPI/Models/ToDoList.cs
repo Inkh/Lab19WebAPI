@@ -7,5 +7,6 @@ namespace WebAPI.Models
 {
     public class ToDoList
     {
+        public int ID { get; set; }
     }
 }
