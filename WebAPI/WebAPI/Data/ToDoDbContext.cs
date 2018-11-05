@@ -27,7 +27,7 @@ namespace WebAPI.Data
                     ID = 2,
                     Name = "Programming"
                 }
-                );
+            );
                 
             modelBuilder.Entity<ToDo>().HasData(
                 new ToDo
