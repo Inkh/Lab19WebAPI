@@ -50,7 +50,13 @@ namespace WebAPI.Controllers
             return RedirectToAction("Get", new { id = toDo.ID });
         }
 
-        //Put
+        //[HttpPut("{id}")]
+        ////Put
+        //public async Task<IActionResult> Put(int id, [FromBody]ToDo toDo)
+        //{
+        //    var toDo = await _context.ToDos.FirstOrDefaultAsync(t => t.ID == id);
+
+        //}
 
         //Delete
     }
