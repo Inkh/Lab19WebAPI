@@ -16,25 +16,41 @@ namespace WebAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ToDoList>().HasData(
+                new ToDoList
+                {
+                    ID = 1,
+                    Name = "Chores"
+                },
+                new ToDoList
+                {
+                    ID = 2,
+                    Name = "Programming"
+                }
+                );
+                
             modelBuilder.Entity<ToDo>().HasData(
                 new ToDo
                 {
                     ID = 1,
                     Name = "Vacuum the carpet",
-                    Completed = false
+                    Completed = false,
+                    ToDoListID = 1
                 },
 
                 new ToDo
                 {
                     ID = 2,
                     Name = "Mop the floors",
-                    Completed = false
+                    Completed = false,
+                    ToDoListID = 1
                 },
                 new ToDo
                 {
                     ID = 3,
                     Name = "Finish some labs",
-                    Completed = true
+                    Completed = true,
+                    ToDoListID = 2
                 }
             );
         }

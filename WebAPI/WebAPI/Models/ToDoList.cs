@@ -8,5 +8,9 @@ namespace WebAPI.Models
     public class ToDoList
     {
         public int ID { get; set; }
+        public string Name { get; set; }
+
+        //Nav props
+        public ICollection<ToDo> ToDos { get; set; }
     }
 }

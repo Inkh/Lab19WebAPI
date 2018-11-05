@@ -50,14 +50,32 @@ namespace WebAPI.Controllers
             return RedirectToAction("Get", new { id = toDo.ID });
         }
 
-        //[HttpPut("{id}")]
-        ////Put
-        //public async Task<IActionResult> Put(int id, [FromBody]ToDo toDo)
-        //{
-        //    var toDo = await _context.ToDos.FirstOrDefaultAsync(t => t.ID == id);
-
-        //}
+        //Put
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody]ToDo toDo)
+        {
+            var myToDo = await _context.ToDos.FirstOrDefaultAsync(t => t.ID == id);
+            if (myToDo != null)
+            {
+                _context.ToDos.Update(toDo);
+            }
+            else
+            {
+                await Post(toDo);
+            }
+            return RedirectToAction("Get", new { id = toDo.ID });
+        }
 
         //Delete
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var delete = await _context.ToDos.FirstOrDefaultAsync(t => t.ID == id);
+            if (delete != null)
+            {
+                _context.ToDos.Remove(delete);
+            }
+            return Ok();
+        }
     }
 }

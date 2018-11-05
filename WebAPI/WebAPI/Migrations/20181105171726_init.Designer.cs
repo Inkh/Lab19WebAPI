@@ -9,8 +9,8 @@ using WebAPI.Data;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(ToDoDbContext))]
-    [Migration("20181105061138_seed")]
-    partial class seed
+    [Migration("20181105171726_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,14 +30,18 @@ namespace WebAPI.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<int>("ToDoListID");
+
                     b.HasKey("ID");
+
+                    b.HasIndex("ToDoListID");
 
                     b.ToTable("ToDos");
 
                     b.HasData(
-                        new { ID = 1, Completed = false, Name = "Vacuum the carpet" },
-                        new { ID = 2, Completed = false, Name = "Mop the floors" },
-                        new { ID = 3, Completed = true, Name = "Finish some labs" }
+                        new { ID = 1, Completed = false, Name = "Vacuum the carpet", ToDoListID = 1 },
+                        new { ID = 2, Completed = false, Name = "Mop the floors", ToDoListID = 1 },
+                        new { ID = 3, Completed = true, Name = "Finish some labs", ToDoListID = 2 }
                     );
                 });
 
@@ -47,9 +51,24 @@ namespace WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Name");
+
                     b.HasKey("ID");
 
                     b.ToTable("ToDoList");
+
+                    b.HasData(
+                        new { ID = 1, Name = "Chores" },
+                        new { ID = 2, Name = "Programming" }
+                    );
+                });
+
+            modelBuilder.Entity("WebAPI.Models.ToDo", b =>
+                {
+                    b.HasOne("WebAPI.Models.ToDoList", "ToDoList")
+                        .WithMany("ToDos")
+                        .HasForeignKey("ToDoListID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
