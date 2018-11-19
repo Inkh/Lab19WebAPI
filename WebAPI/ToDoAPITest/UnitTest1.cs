@@ -189,5 +189,102 @@ namespace ToDoAPITest
                 Assert.True(deletedTask == null);
             }
         }
+
+        /// <summary>
+        /// Tests creation on TDL table
+        /// </summary>
+        [Fact]
+        public async void ToDoListCreateTest()
+        {
+            DbContextOptions<ToDoDbContext> options =
+                new DbContextOptionsBuilder<ToDoDbContext>()
+                .UseInMemoryDatabase("todoListCreate")
+                .Options;
+
+            using (ToDoDbContext context = new ToDoDbContext(options))
+            {
+
+                //CREATE
+                //Arrange
+                ToDoList myList = new ToDoList();
+                myList.Name = "new list";
+                
+                context.ToDoList.Add(myList);
+                context.SaveChanges();
+
+                //READ
+                var list = await context.ToDoList.FirstOrDefaultAsync(t => t.Name == myList.Name);
+
+                Assert.Equal("new list", list.Name);
+            }
+        }
+
+        /// <summary>
+        /// Tests updating on TDL table
+        /// </summary>
+        [Fact]
+        public async void ToDoListUpdateTest()
+        {
+            DbContextOptions<ToDoDbContext> options =
+                new DbContextOptionsBuilder<ToDoDbContext>()
+                .UseInMemoryDatabase("todoListUpdate")
+                .Options;
+
+            using (ToDoDbContext context = new ToDoDbContext(options))
+            {
+
+                //CREATE
+                //Arrange
+                ToDoList myList = new ToDoList();
+                myList.Name = "new list";
+
+                context.ToDoList.Add(myList);
+                context.SaveChanges();
+
+                //READ
+                var list = await context.ToDoList.FirstOrDefaultAsync(t => t.Name == myList.Name);
+
+                list.Name = "another name";
+                context.Update(list);
+                context.SaveChanges();
+
+                var newList = await context.ToDoList.FirstOrDefaultAsync(t => t.Name == myList.Name);
+                Assert.Equal("another name", newList.Name);
+            }
+        }
+
+        /// <summary>
+        /// Tests deletion on TDL table
+        /// </summary>
+        [Fact]
+        public async void ToDoListDeleteTest()
+        {
+            DbContextOptions<ToDoDbContext> options =
+                new DbContextOptionsBuilder<ToDoDbContext>()
+                .UseInMemoryDatabase("todoListDelete")
+                .Options;
+
+            using (ToDoDbContext context = new ToDoDbContext(options))
+            {
+
+                //CREATE
+                //Arrange
+                ToDoList myList = new ToDoList();
+                myList.Name = "new list";
+
+                context.ToDoList.Add(myList);
+                context.SaveChanges();
+
+                //READ
+                var list = await context.ToDoList.FirstOrDefaultAsync(t => t.Name == myList.Name);
+
+                context.ToDoList.Remove(list);
+                context.SaveChanges();
+
+                var deletedList = await context.ToDoList.FirstOrDefaultAsync(t => t.Name == myList.Name);
+
+                Assert.True(deletedList == null);
+            }
+        }
     }
 }
