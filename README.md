@@ -27,3 +27,6 @@ https://tdapi.azurewebsites.net/
     - GET: Returns the ToDoList matching with the input ID.
     - PUT: Updates a specific todolist.
     - DELETE: Deletes a specific todolist.
+
+## Visuals
+![tdapi](assets/tdapi.PNG)
